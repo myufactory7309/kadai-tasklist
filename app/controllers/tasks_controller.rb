@@ -1,7 +1,8 @@
 class TasksController < ApplicationController
   
+  #タスク全部を代入するから名前も複数になっている!?
   def index
-    @tasks = Task.all #タスクz全部を代入するから名前も複数になっている!?
+    @tasks = Task.all 
   end 
   
   def create
@@ -25,8 +26,9 @@ class TasksController < ApplicationController
     @task = Task.find(params[:id])
   end 
   
+  #１個のタスクを代入するから名前も単数になっている!?
   def show
-    @task = Task.find(params[:id]) #１個のタスクを代入するから名前も単数になっている!?
+    @task = Task.find(params[:id]) 
   end 
   
   def update
