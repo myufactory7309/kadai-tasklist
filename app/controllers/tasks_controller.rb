@@ -1,4 +1,5 @@
 class TasksController < ApplicationController
+  before_action :set_task, only:[:show, :edit, :update, :destory]
   
   #タスク全部を代入するから名前も複数になっている!?
   def index
@@ -23,16 +24,16 @@ class TasksController < ApplicationController
   end
   
   def edit
-    @task = Task.find(params[:id])
+    set_task
   end 
   
   #１個のタスクを代入するから名前も単数になっている!?
   def show
-    @task = Task.find(params[:id]) 
+    set_task
   end 
   
   def update
-    @task = Task.find(params[:id])
+    set_task
 
     if @task.update(task_params)
       flash[:success] = 'タスクは正常に更新されました'
@@ -44,7 +45,7 @@ class TasksController < ApplicationController
   end 
   
   def destroy
-    @task = Task.find(params[:id])
+    set_task
     @task.destroy
 
     flash[:success] = 'タスクは正常に削除されました'
@@ -54,6 +55,11 @@ class TasksController < ApplicationController
   private
 
   # Strong Parameter
+  def set_task
+    @task = Task.find(params[:id])
+  end
+  
+  
   def task_params
     params.require(:task).permit(:content)
   end
