@@ -3,8 +3,17 @@ class TasksController < ApplicationController
   
   #タスク全部を代入するから名前も複数になっている!?
   def index
-    @tasks = Task.all 
+    @tasks = Task.order(created_at: :desc).page(params[:page]).per(5)
   end 
+  
+  #１個のタスクを代入するから名前も単数になっている!?
+  def show
+    @task = Task.find(params[:id])
+  end 
+  
+  def new
+    @task = Task.new
+  end
   
   def create
     @task = Task.new(task_params)
@@ -16,19 +25,11 @@ class TasksController < ApplicationController
       flash.now[:danger] = 'タスクが投稿されませんでした'
       render :new
     end
-    
   end
   
-  def new
-    @task = Task.new
-  end
+
   
   def edit
-    set_task
-  end 
-  
-  #１個のタスクを代入するから名前も単数になっている!?
-  def show
     set_task
   end 
   
@@ -51,6 +52,8 @@ class TasksController < ApplicationController
     flash[:success] = 'タスクは正常に削除されました'
     redirect_to tasks_url
   end 
+  
+  
   
   private
 

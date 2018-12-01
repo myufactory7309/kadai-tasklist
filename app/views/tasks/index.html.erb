@@ -2,13 +2,14 @@
 
 <% if @tasks.any? %>
 
+  <!-- テーブルを用いて表示する。（行ごとに色を変えたもの） -->
   <table class="table table-striped">
     <thead>
       <tr>
         <!-- テーブルのヘッダー部の記載内容を記述する -->
-        <th>id</th>
-        <th>タイトル</th>
-        <th>タスク</th>
+        <th>ID</th>
+        <th>ステータス</th>
+        <th>タスク内容</th>
       </tr>
     </thead>
     <tbody>
@@ -16,24 +17,25 @@
       <% @tasks.each do |task| %>
         <tr>
           <!-- 順にタスクのIDを記述する -->
-          <td>,%= link_to task.id, task %></td>
+          <td><%= link_to task.id, task %></td>
           
           <!-- 順にタスクのタイトルを記述する -->
-          <td>,%= task.title %></td>
+          <td><%= task.status %></td>
+          
           
           <!-- 順にタスクの内容を記述する -->
-          <td>,%= task.content %></td>
+          <td><%= task.content %></td>
           
         </tr>
       <% end %>
     </tbody>
-    </table>
+  </table>
     
-    <!-- ページネーションのために入れる一文　-->
-    <div>
-      <%= paginate @tasks %>
-    </div>
+  <!-- ページネーションのために入れる一文　-->
+  <div>
+    <%= paginate @tasks %>
+  </div>
   
-  <% end %>
+<% end %>
 
-<%= link_to '新規タスクの投稿', new_task_path, class: "btn-primary" %>
+<%= link_to '新規タスク入力', new_task_path, class: "btn btn-primary" %>
