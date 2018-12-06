@@ -1,41 +1,51 @@
-<h1>タスク一覧</h1>
+<% if logged_in? %>
 
-<% if @tasks.any? %>
+  <h1>タスク一覧</h1>
 
-  <!-- テーブルを用いて表示する。（行ごとに色を変えたもの） -->
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <!-- テーブルのヘッダー部の記載内容を記述する -->
-        <th>ID</th>
-        <th>ステータス</th>
-        <th>タスク内容</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Tasksからひとつずつ順にtaskに入れる　-->
-      <% @tasks.each do |task| %>
-        <tr>
-          <!-- 順にタスクのIDを記述する -->
-          <td><%= link_to task.id, task %></td>
-          
-          <!-- 順にタスクのタイトルを記述する -->
-          <td><%= task.status %></td>
-          
-          
-          <!-- 順にタスクの内容を記述する -->
-          <td><%= task.content %></td>
-          
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-    
-  <!-- ページネーションのために入れる一文　-->
-  <div>
-    <%= paginate @tasks %>
-  </div>
+    <% if @tasks.any? %>
+
+      <!-- テーブルを用いて表示する。（行ごとに色を変えたもの） -->
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <!-- テーブルのヘッダー部の記載内容を記述する -->
+            <th>ID</th>
+            <th>ステータス</th>
+            <th>タスク内容</th>
+          </tr>
+        </thead>
   
+        <tbody>
+          <!-- Tasksからひとつずつ順にtaskに入れる　-->
+          <% @tasks.each do |task| %>
+            <tr>
+              <!-- 順にタスクのIDを記述する -->
+              <td><%= link_to task.id, task %></td>
+          
+              <!-- 順にタスクのタイトルを記述する -->
+              <td><%= task.status %></td>
+          
+              <!-- 順にタスクの内容を記述する -->
+              <td><%= task.content %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <!-- ページネーションのために入れる一文　-->
+      <div>
+        <%= paginate @tasks %>
+      </div>
+  
+    <% end %>
+    <%= link_to '新規タスク入力', new_task_path, class: "btn btn-primary" %>
+    
+<% else %>
+  <!-- ここにログインしていないときの表示を入れる　-->
+  <div class="center jumbotron">
+    <div class="text-center">
+      <h1>Welcome to theTasklist</h1>
+      <%= link_to 'Sign up now!', signup_path, class: 'btn btn-lg btn-primary' %>
+    </div>
+  </div>
 <% end %>
-
-<%= link_to '新規タスク入力', new_task_path, class: "btn btn-primary" %>
+  
