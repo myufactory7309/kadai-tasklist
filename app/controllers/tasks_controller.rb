@@ -1,9 +1,11 @@
 class TasksController < ApplicationController
   before_action :set_task, only:[:show, :edit, :update, :destory]
+  before_action :require_user_logged_in
+  before_action :correct_user, only: [:new, :show, :edit, :update, :destroy]
   
   #タスク全部を代入するから名前も複数になっている!?
   def index
-    @tasks = Task.order(created_at: :desc).page(params[:page]).per(5)
+    @tasks = current_user.tasks.order(created_at: :desc).page(params[:page]).per(5)
   end 
   
   #１個のタスクを代入するから名前も単数になっている!?
@@ -62,9 +64,19 @@ class TasksController < ApplicationController
     @task = Task.find(params[:id])
   end
   
+  def correct_user
+    @task = current_user.task.find_by(id: params[:id])
+    unless @task
+      redirect_to root_url
+    end
+  end
+  
   def task_params
     params.require(:task).permit(:content, :status)
   end
+  
+  
+    
 
   
 end

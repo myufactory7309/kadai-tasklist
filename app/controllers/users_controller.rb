@@ -19,6 +19,7 @@ class UsersController < ApplicationController
     if @user.save
       flash[:success] = 'ユーザを登録しました。'
       redirect_to @user
+      #redirect_to tasks_path
     else
       flash.now[:danger] = 'ユーザの登録に失敗しました。'
       render :new
@@ -31,6 +32,11 @@ class UsersController < ApplicationController
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
   
-  
+  def correct_user
+    @task = current_user.tasks.find_by(id: params[:id])
+    unless @task
+      redirect_to root_url
+    end
+  end
   
 end
